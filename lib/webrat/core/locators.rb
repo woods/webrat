@@ -12,9 +12,19 @@ require "webrat/core/locators/form_locator"
 module Webrat
   module Locators
 
+    # Return the first field that matches the given xpath, or nil if no such
+    # field exists.
     def field_by_xpath(xpath)
       Field.load(@session, Webrat::XML.xpath_at(dom, xpath))
     end
 
+    # Return an array of all fields that match the given xpath, or an empty
+    # array if no such fields exist.
+    def fields_by_xpath(xpath)
+      Webrat::XML.xpath_search(dom, xpath).map do |element|
+        Field.load(@session, element)
+      end
+    end
+    
   end
 end
